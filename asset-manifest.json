@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Kosmos-front-challenge/static/css/main.18f39eb6.css",
+    "main.js": "/Kosmos-front-challenge/static/js/main.b77fd845.js",
+    "index.html": "/Kosmos-front-challenge/index.html",
+    "main.18f39eb6.css.map": "/Kosmos-front-challenge/static/css/main.18f39eb6.css.map",
+    "main.b77fd845.js.map": "/Kosmos-front-challenge/static/js/main.b77fd845.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.18f39eb6.css",
+    "static/js/main.b77fd845.js"
+  ]
+}
