@@ -183,6 +183,26 @@ const Component = ({
     let positionMaxTop;
     let positionMaxLeft;
 
+    //The next section should be replicated for the onResizeEnd function, which manages the component properties once resized.
+    //For reasons of time I only indicate it as a comment.
+
+    //If the component while been resized goes beyond the height edge of the parent div, 
+    //the positionMaxTop value and the top value goes to zero, meaning the edge of the parent div.
+    //Also the heigth is updated with the new height value;
+    if(top == 0 && top + newHeight > 0){
+      positionMaxTop = 0;
+      top = 0;
+      newHeight = height;
+    }
+
+    //Same procedure for the width edges
+    if(left == 0 && left + newWidth > 0){
+      positionMaxLeft = 0;
+      left = 0;
+      newWidth = width;
+    }
+
+
     if (parentBounds?.height - positionMaxTop < 100) {
       positionMaxTop = parentBounds?.height - newHeight;
       newHeight = height;
