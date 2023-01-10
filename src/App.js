@@ -25,7 +25,6 @@ const App = () => {
       });
   }, []);
 
-
   //Create a new moveable component when onclick on button
   const addMoveable = () => {
     //add moveable object with image as background to the array of moveableComponents
@@ -105,6 +104,7 @@ const App = () => {
 
 export default App;
 
+//Moveable component
 const Component = ({
   updateMoveable,
   top,
@@ -119,8 +119,11 @@ const Component = ({
   updateEnd,
 
 }) => {
+
+  //Store a mutable value of nodes and not cause a re-render of the app each time they change
   const ref = useRef();
 
+  //Create state for reference node
   const [nodoReferencia, setNodoReferencia] = useState({
     top,
     left,
@@ -135,27 +138,30 @@ const Component = ({
   let parent = document.getElementById("parent");
   let parentBounds = parent?.getBoundingClientRect();
 
-  //Add an on drag hanlder for the component while being dragged 
+  //Add an on drag handler for the component while being dragged 
   const onDrag = async (e) => {
     let top = e.top;
     let left = e.left;
 
+    //If the drag of the element goes beyond the edge of the parent div, the component will be position at the 
+    //heigth edge of the div
     if (parentBounds?.height - top < e.height) {
       top = parentBounds?.height - e.height;
     }
-
     if (top < 0) {
       top = 0;
     }
 
+    //If the drag of the element goes beyond the edge of the parent div, the component will be position at the 
+    //width edge of the div
     if (parentBounds?.width - left < e.width) {
       left = parentBounds?.widt - e.width;
     }
-
     if (left < 0) {
       left = 0;
     }
 
+    //Update values of the moveable component that was dragged
     updateMoveable(id, {
       top: top,
       left: left,
@@ -173,8 +179,6 @@ const Component = ({
     // Make positionMaxTop and positionMaxLeft adaptable variables for being capable of update its values on resizing
     let positionMaxTop;
     let positionMaxLeft;
-
-    
 
     if (parentBounds?.height - positionMaxTop < 100) {
       positionMaxTop = parentBounds?.height - newHeight;
