@@ -1,5 +1,9 @@
+// React imports
 import React, { useRef, useState, useEffect } from "react";
 import Moveable from "react-moveable";
+
+//Style sheets
+import './styles.css';
 
 const App = () => {
   const [moveableComponents, setMoveableComponents] = useState([]);
@@ -75,15 +79,14 @@ const App = () => {
   };
 
   return (
-    <main style={{ height: "100vh", width: "100vw" }}>
-      <button onClick={addMoveable}>Add Moveable1</button>
+    <main id='main-container'style={{ height: "100vh", width: "100vw" }}>
+      <button className='button' onClick={addMoveable}>Add moveable</button>
       <div
         id="parent"
         style={{
           position: "relative",
-          background: "black",
           height: "80vh",
-          width: "80vw",
+          width: "85vw",
         }}
       >
         {moveableComponents.map((item, index) => (

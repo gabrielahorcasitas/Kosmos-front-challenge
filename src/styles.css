@@ -1,5 +1,5 @@
 .title {
-  font-family: sans-serif;
+  font-family: 'Alegreya Sans', sans-serif;
   text-align: center;
 }
 
@@ -12,13 +12,39 @@
   gap: 1em;
 }
 
+#main-container{
+ display: flex;
+ padding: 10px;
+ border-radius: 20px;
+ align-items: center;
+ background-color: #D2D2D2;
+}
+
+#parent{
+  border-radius: 20px;
+  background-color: #D6E1EE;
+}
+
+.draggable{
+  border-radius: 10px;
+}
 .button {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  width: 120px;
+  height: 70px;
+  font-size: 17px;
+  color: whitesmoke;
+  text-decoration: underline;
+  background-color: #ED6A5A;
+  border-radius: 20px;
   border: none;
-  font-size: 8px;
+  margin: 10px;
+}
+
+.button:hover{
+  box-shadow: 10px 12px 0.5rem rgba(124, 130, 223, 0.5);
+  filter: saturate(180%);
+  cursor: pointer;
 }
