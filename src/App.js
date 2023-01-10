@@ -1,15 +1,33 @@
 import React, { useRef, useState, useEffect } from "react";
 import Moveable from "react-moveable";
 
-//Principal componet
 const App = () => {
   const [moveableComponents, setMoveableComponents] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [images, setImages] = useState([]);
 
+  //Fetch images from API, save in array url of each image, and store in images state;
+  //secondary effect a.k.a. fetch function will occur when the component mounts (see array of dependencies);
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/photos")
+      //take the response stream and parsing the body text as JSON.
+      .then((response) => {
+        return response.json();
+      })
+      //store url of each image in array
+      .then((data) => {
+        const imagesArr = data.map((image) => {
+          return image.url;
+        });
+        //update state with array of url
+        setImages(imagesArr);
+      });
+  }, []);
+
+
+  //Function that creates the new moveable component tobe executed onClick of button
   const addMoveable = () => {
-    // Create a new moveable component and add it to the array
-    const COLORS = ["red", "blue", "yellow", "green", "purple"];
-
+    //add new moveable compontent with new image to the array of moveable components
     setMoveableComponents([
       ...moveableComponents,
       {
@@ -18,12 +36,13 @@ const App = () => {
         left: 0,
         width: 100,
         height: 100,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        color: images[Math.floor(Math.random() * images.length)],
         updateEnd: true
       },
     ]);
   };
 
+  //update state of moveableComponents with all the moveable components
   const updateMoveable = (id, newComponent, updateEnd = false) => {
     const updatedMoveables = moveableComponents.map((moveable, i) => {
       if (moveable.id === id) {
@@ -109,16 +128,38 @@ const Component = ({
     id,
   });
 
+  //identify div parent element of moveables
   let parent = document.getElementById("parent");
+  //stablish parent bounds
   let parentBounds = parent?.getBoundingClientRect();
-  
+
+
+  //Handle rezise of moveable -> update height and width values of moveable  while resizing & secure the moveable 
+  //doesn't go beyond parent bounds
   const onResize = async (e) => {
-    // ACTUALIZAR ALTO Y ANCHO
+    // update width and heigth when executing resize of the moveable
     let newWidth = e.width;
     let newHeight = e.height;
 
-    const positionMaxTop = top + newHeight;
-    const positionMaxLeft = left + newWidth;
+    let positionMaxTop = top + newHeight;
+    let positionMaxLeft = left + newWidth;
+
+    //conditions for resizing if moveable tries to go beyond parent bounds
+    if (top === 0 && top + newHeight > 0) {
+      positionMaxTop = 0;
+      newHeight = height;
+      top = 0;
+    } else {
+      positionMaxTop = top + newHeight;
+    }
+
+    if (left === 0 && left + newWidth > 0) {
+      positionMaxLeft = 0;
+      newWidth = height;
+      left = 0;
+    } else {
+      positionMaxLeft = left + newWidth;
+    }
 
     if (positionMaxTop > parentBounds?.height)
       newHeight = parentBounds?.height - top;
@@ -133,7 +174,7 @@ const Component = ({
       color,
     });
 
-    // ACTUALIZAR NODO REFERENCIA
+    // Update 'nodo de referencia'
     const beforeTranslate = e.drag.beforeTranslate;
 
     ref.current.style.width = `${e.width}px`;
@@ -153,12 +194,31 @@ const Component = ({
     });
   };
 
+   //Handle rezise of moveable -> update height and width values of moveable once resize is finished & secure the moveable 
+  //doesn't go beyond parent bounds
   const onResizeEnd = async (e) => {
     let newWidth = e.lastEvent?.width;
     let newHeight = e.lastEvent?.height;
 
-    const positionMaxTop = top + newHeight;
-    const positionMaxLeft = left + newWidth;
+    let positionMaxTop = top + newHeight;
+    let positionMaxLeft = left + newWidth;
+
+    //conditions for resizing if moveable tries to go beyond parent bounds
+    if (top === 0 && top + newHeight > 0) {
+      positionMaxTop = 0;
+      newHeight = height;
+      top = 0;
+    } else {
+      positionMaxTop = top + newHeight;
+    }
+
+    if (left === 0 && left + newWidth > 0) {
+      positionMaxLeft = 0;
+      newWidth = height;
+      left = 0;
+    } else {
+      positionMaxLeft = left + newWidth;
+    }
 
     if (positionMaxTop > parentBounds?.height)
       newHeight = parentBounds?.height - top;
